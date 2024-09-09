@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owog Animation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .background {
+            background-image: url('https://i.postimg.cc/xCwhffB7/911-again.avif');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+        .osfwog {
+            position: absolute;
+            width: 300px;
+            height: auto;
+            left: -300px;
+            bottom: 0;
+            transition: left 6s linear;
+        }
+        #osfwog1 { z-index: 3; }
+        #osfwog2 { z-index: 2; left: -320px; }
+        #osfwog3 { z-index: 1; left: -340px; }
+        
+        .flying-image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        .flying-image {
+            position: absolute;
+            width: 100px;
+            animation: fly-to-center 8s ease-in-out forwards, spin 2s linear infinite;
+        }
+        .flying-image:last-child {
+            animation: fly-to-right 8s ease-in-out forwards, spin 2s linear infinite;
+        }
+        @keyframes fly-to-center {
+            0% { top: -100px; left: -100px; opacity: 1; }
+            99% { opacity: 1; }
+            100% { top: calc(50% - 50px); left: calc(50% - 50px); opacity: 0; }
+        }
+        @keyframes fly-to-right {
+            0% { top: -100px; right: -100px; opacity: 1; }
+            99% { opacity: 1; }
+            100% { top: calc(50% - 50px); right: 25%; opacity: 0; }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #owog-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Creepster', cursive;
+            font-size: 150px;
+            color: #ff4500;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 10000;
+        }
+        .button-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 10001;
+        }
+        .button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-size: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        #pump { background-image: url('https://i.postimg.cc/sxthHstT/pump.png'); }
+        #twitter { background-image: url('https://abs.twimg.com/favicons/twitter.ico'); }
+        #dexscreener { background-image: url('https://dexscreener.com/favicon.ico'); }
+        #telegram { background-image: url('https://telegram.org/img/favicon.ico'); }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <img src="https://i.postimg.cc/k46LP6YK/Osfwog-no-bkg.png" alt="Osfwog" class="osfwog" id="osfwog1">
+        <img src="https://i.postimg.cc/k46LP6YK/Osfwog-no-bkg.png" alt="Osfwog" class="osfwog" id="osfwog2">
+        <img src="https://i.postimg.cc/k46LP6YK/Osfwog-no-bkg.png" alt="Osfwog" class="osfwog" id="osfwog3">
+    </div>
+
+    <div class="flying-image-container">
+        <img src="https://i.postimg.cc/k46LP6YK/Osfwog-no-bkg.png" alt="Flying image" class="flying-image">
+        <img src="https://i.postimg.cc/k46LP6YK/Osfwog-no-bkg.png" alt="Flying image" class="flying-image">
+    </div>
+
+    <div id="owog-text">Owog</div>
+
+    <div class="button-container">
+        <a href="https://pump.fun" target="_blank" class="button" id="pump"></a>
+        <a href="https://twitter.com" target="_blank" class="button" id="twitter"></a>
+        <a href="https://dexscreener.com" target="_blank" class="button" id="dexscreener"></a>
+        <a href="https://telegram.org" target="_blank" class="button" id="telegram"></a>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.dropbox.com/scl/fi/sq9j8b53cpbrc30qxziff/Allahu-Akbar-Sound-Effect-Free-Download-HD.mp3?rlkey=cugmgubo6sk0u6498im0wl5w7&st=mlabcqiw&raw=1" type="audio/mpeg">
+    </audio>
+    <audio id="soundEffect1" loop>
+        <source src="https://www.dropbox.com/scl/fi/8ifr0lymjponysf2jvfdu/AK-47-Sound-Gun-Shot-Sound-Effect.mp3?rlkey=uh7ftvkatfjmg9b6zc9gq5atc&st=707fqqd9&raw=1" type="audio/mpeg">
+    </audio>
+    <audio id="soundEffect2" loop>
+        <source src="path_to_your_sound_effect2.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function animateOsfwogs() {
+            const osfwogs = document.querySelectorAll('.osfwog');
+            osfwogs.forEach((osfwog, index) => {
+                setTimeout(() => {
+                    osfwog.style.left = `${45 + index * 5}%`;
+                    setInterval(() => {
+                        osfwog.style.transform = `translateX(-50%) translateY(${Math.sin(Date.now() / 500) * 10}px)`;
+                    }, 20);
+                }, index * 600);
+            });
+        }
+
+        function animateFlyingImages() {
+            const flyingImages = document.querySelectorAll('.flying-image');
+            flyingImages.forEach((image) => {
+                setInterval(() => {
+                    const randomX = Math.sin(Date.now() / 500) * 20;
+                    const randomY = Math.cos(Date.now() / 500) * 20;
+                    image.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${Date.now() / 10 % 360}deg)`;
+                }, 50);
+            });
+        }
+
+        function playSounds() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const soundEffect1 = document.getElementById('soundEffect1');
+            const soundEffect2 = document.getElementById('soundEffect2');
+
+            backgroundMusic.volume = 0.5;
+            soundEffect1.volume = 0.3;
+            soundEffect2.volume = 0.3;
+
+            backgroundMusic.play();
+            soundEffect1.play();
+            soundEffect2.play();
+        }
+
+        function showOwogText() {
+            setTimeout(() => {
+                document.getElementById('owog-text').style.opacity = '1';
+                document.querySelector('.button-container').style.opacity = '1';
+            }, 6000);
+        }
+
+        window.onload = () => {
+            animateOsfwogs();
+            animateFlyingImages();
+            playSounds();
+            showOwogText();
+        };
+    </script>
+</body>
+</html>
